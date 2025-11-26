@@ -4,8 +4,10 @@ import com.telemedicine.patient_service.data.entity.Patient;
 import com.telemedicine.patient_service.data.repository.PatientRepository;
 import com.telemedicine.patient_service.dto.CreatePatientDto;
 import com.telemedicine.patient_service.dto.PatientDto;
+import com.telemedicine.patient_service.dto.SkeletonPatientDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -33,7 +35,22 @@ public class PatientService {
         patient.setBloodGroup(patientDto.getBloodGroup());
         patient.setEmergencyContactName(patientDto.getEmergencyContactName());
         patient.setEmergencyContactPhone(patientDto.getEmergencyContactPhone());
-        patient.setStatus("Active"); // default
+        patient.setStatus("Active");
+
+        return patientRepository.save(patient);
+
+    }
+
+    public Patient createPatientSkeleton(SkeletonPatientDto skeletonPatientDto) {
+
+        Patient patient = new Patient();
+        patient.setEmail(skeletonPatientDto.getEmail());
+        patient.setFirstName(skeletonPatientDto.getFirstName());
+        patient.setLastName(skeletonPatientDto.getLastName());
+        patient.setPhoneNumber("0000000000");  // Or null + remove NOT NULL
+        patient.setGender("UNKNOWN");
+        patient.setDateOfBirth(LocalDate.of(1900, 1, 1));
+        patient.setStatus("Pending Setup");
 
         return patientRepository.save(patient);
 
