@@ -21,7 +21,7 @@ public class InternalPatientController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Boolean> createPatientWithEmail(@Valid @RequestBody SkeletonPatientDto skeletonPatientDto){
+    public ResponseEntity<Boolean> createPatientSkeleton(@Valid @RequestBody SkeletonPatientDto skeletonPatientDto){
         Patient patient = patientService.createPatientSkeleton(skeletonPatientDto);
         if(patient == null){
             throw new RuntimeException("Patient can not be created");
