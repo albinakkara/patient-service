@@ -76,4 +76,7 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
+    public Patient validatePatientWithId(Long id) {
+        return patientRepository.findById(id).orElse(new Patient());
+    }
 }

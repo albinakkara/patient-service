@@ -4,11 +4,10 @@ import com.telemedicine.patient_service.data.entity.Patient;
 import com.telemedicine.patient_service.dto.SkeletonPatientDto;
 import com.telemedicine.patient_service.service.PatientService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/internal/patients")
@@ -27,5 +26,15 @@ public class InternalPatientController {
             throw new RuntimeException("Patient can not be created");
         }
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Boolean> validatePatientWithId(@PathVariable Long id){
+        Patient patient = patientService.validatePatientWithId(id);
+        boolean isValid = patient.getId().equals(id);
+        if(!isValid){
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
