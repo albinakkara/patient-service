@@ -28,10 +28,10 @@ public class InternalPatientController {
         return ResponseEntity.ok(true);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Boolean> validatePatientWithId(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Boolean> validatePatientWithId(@PathVariable("id") Long id){
         Patient patient = patientService.validatePatientWithId(id);
-        boolean isValid = patient.getId().equals(id);
+        boolean isValid = patient.getId()!=null && patient.getId().equals(id);
         if(!isValid){
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
