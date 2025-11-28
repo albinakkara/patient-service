@@ -57,9 +57,9 @@ public class PatientService {
 
     }
 
-    public Patient updatePatient(Long id, PatientDto dto) {
+    public Patient updatePatient(String email, PatientDto dto) {
         Patient patient = patientRepository
-                .findById(id)
+                .findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
 
         if (dto.getFirstName() != null) patient.setFirstName(dto.getFirstName());

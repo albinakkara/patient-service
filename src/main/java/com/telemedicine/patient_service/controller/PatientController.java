@@ -44,9 +44,9 @@ public class PatientController {
         return new ResponseEntity<>(Constants.PATIENT_CREATION_SUCCESS, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> updatePatient(@PathVariable Long id, @RequestBody PatientDto patientDto){
-        Patient patient = patientService.updatePatient(id, patientDto);
+    @PatchMapping("/profile")
+    public ResponseEntity<String> updatePatient(@RequestHeader(value = "X-User-Email", required = false) String email, @RequestBody PatientDto patientDto){
+        Patient patient = patientService.updatePatient(email, patientDto);
         if(patient == null){
             throw new RuntimeException(Constants.PATIENT_UPDATE_FAILURE);
         }
