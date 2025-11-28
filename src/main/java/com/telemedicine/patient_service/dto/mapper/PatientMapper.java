@@ -15,6 +15,7 @@ public class PatientMapper {
         if (patient == null) return null;
 
         PatientDto dto = new PatientDto();
+        dto.setId(patient.getId());
         dto.setFirstName(patient.getFirstName());
         dto.setLastName(patient.getLastName());
         dto.setEmail(patient.getEmail());
