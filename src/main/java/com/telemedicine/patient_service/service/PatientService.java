@@ -5,6 +5,7 @@ import com.telemedicine.patient_service.data.repository.PatientRepository;
 import com.telemedicine.patient_service.dto.CreatePatientDto;
 import com.telemedicine.patient_service.dto.PatientDto;
 import com.telemedicine.patient_service.dto.SkeletonPatientDto;
+import com.telemedicine.patient_service.dto.mapper.PatientMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,7 +48,7 @@ public class PatientService {
         patient.setEmail(skeletonPatientDto.getEmail());
         patient.setFirstName(skeletonPatientDto.getFirstName());
         patient.setLastName(skeletonPatientDto.getLastName());
-        patient.setPhoneNumber("0000000000");  // Or null + remove NOT NULL
+        patient.setPhoneNumber(null);  // Or null + remove NOT NULL
         patient.setGender("UNKNOWN");
         patient.setDateOfBirth(LocalDate.of(1900, 1, 1));
         patient.setStatus("Pending Setup");
@@ -78,5 +79,14 @@ public class PatientService {
 
     public Patient validatePatientWithId(Long id) {
         return patientRepository.findById(id).orElse(new Patient());
+    }
+
+    public PatientDto getPatientProfile(String email) {
+        Patient patient = patientRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("Patient not found!"));
+        return PatientMapper.toDto(patient);
+    }
+
+    public String getPatientEmailById(Long id) {
+        return patientRepository.findEmailById(id).orElseThrow(()->new RuntimeException("Doctor not found"));
     }
 }

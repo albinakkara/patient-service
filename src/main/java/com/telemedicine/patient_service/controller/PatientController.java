@@ -27,6 +27,14 @@ public class PatientController {
         return new ResponseEntity<>(patientService.getAllPatients(), HttpStatus.OK);
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<PatientDto> getPatientProfile(@RequestHeader(value = "X-User-Email", required = false) String email){
+        if(email.isBlank()){
+            throw new RuntimeException("Email not present in the header!");
+        }
+        return ResponseEntity.ok(patientService.getPatientProfile(email));
+    }
+
     @PostMapping("")
     public ResponseEntity<String> createPatient(@Valid @RequestBody CreatePatientDto patientDto){
         Patient patient = patientService.createPatient(patientDto);
